@@ -1,0 +1,21 @@
+h1.title= title
+
+	if currentUser
+		p You are logged in as a #{currentUser.username}
+		hr
+		a(href='/create-message') Create a new message
+		hr
+		a(href='/log-out') Log out
+	else
+		form(method='POST', action='')
+			div.form-group
+				label(for='username') Username:
+				input#username.form-control(type='text' placeholder='username' name='username' required='true' )
+			div.form-group
+				label(for='password') Password:
+				input#pw.form-control(type='password' placeholder='password' name='password' required='true' )
+			button.btn.btn-primary(type='submit') Login
+		br
+		div
+			| Not registered yet? 
+			a(href='/signup') Sign Up
