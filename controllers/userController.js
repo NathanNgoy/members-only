@@ -4,6 +4,7 @@ const expressValidator = require("express-validator");
 var async = require('async');
 const bcrypt = require("bcryptjs");
 const { insertMany } = require("../models/user");
+const passport = require("passport");
 
 exports.sign_up_get = function(req, res) {
     res.render("signup", { title: "Sign up"});
@@ -53,6 +54,16 @@ exports.sign_up_post = [
     }
 ];
 
-exports.login = function(req, res) {
+exports.login_get = function(req, res) {
     res.render("login", {title: "Login"});
 }
+
+exports.login_post = passport.authenticate("local", {
+        successRedirect: "/home",
+        failureRedirect: "/login"
+    })
+
+exports.logout_get = function(req, res) {
+    req.logout();
+    res.redirect('/');
+  };

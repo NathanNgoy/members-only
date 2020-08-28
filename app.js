@@ -3,6 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var User = require("./models/user");
+const bodyParser = require('body-parser');
+const bcrypt = require("bcryptjs");
+
 require('dotenv').config();
 
 const session = require("express-session");
@@ -34,10 +38,14 @@ app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 passport.use(
-  new LocalStrategy((username, password, done) => {
-    User.findOne({ username: username }, (err, user) => {
+  new LocalStrategy({
+    usernameField: "email",
+    passwordField: "password"
+  }, function (username, password, done) {
+    User.findOne({ email: username }, (err, user) => {
       if (err) { 
         return done(err);
       };
@@ -60,11 +68,19 @@ passport.serializeUser(function(user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
-  done(null, user);
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function (err, user) {
+      done(err, user);
+  });
 });
 
 app.use('/', catalogRouter);
+
+// pass user object
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
