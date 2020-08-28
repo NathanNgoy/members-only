@@ -1,5 +1,14 @@
-each message in message_list
-    p= message.title
-    p= message.content
-    p= message.author.firstName
-    p= message.date
+if currentUser
+    p Welcome #{currentUser.firstName}
+
+    each message in message_list
+        p= message.title
+        p= message.content
+        p= message.author.firstName
+        p= message.date
+
+    a(href= '/logout') Logout
+
+else
+    h1 Please login
+    a(href= '/login') Login

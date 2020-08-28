@@ -65,5 +65,5 @@ exports.login_post = passport.authenticate("local", {
 
 exports.logout_get = function(req, res) {
     req.logout();
-    res.redirect('/');
+    res.redirect('/home');
   };

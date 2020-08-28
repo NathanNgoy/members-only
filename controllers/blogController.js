@@ -6,7 +6,6 @@ const bcrypt = require("bcryptjs");
 const { insertMany } = require("../models/user");
 
 exports.index = function(req, res) {   
-    
     async.parallel({
         user_count: function(callback) {
             User.countDocuments({}, callback); 
@@ -25,8 +24,8 @@ exports.list_blog = function(req, res) {
             Message.find({}, callback).populate("author");
         }
     }, function (err, results) {
-        console.log(results)
-        res.render("message_list", {message_list: results.messages})
+        console.log(req.user)
+        res.render("message_list", {message_list: results.messages, currentUser: req.user})
     })
 }
 
