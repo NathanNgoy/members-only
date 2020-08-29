@@ -1,6 +1,19 @@
-form(method="POST" action="")
-    label(for="title") Title
-    input#title(type="text" name="title")
-    label(for="body") Body
-    input#body(name="body")
-    button POST
+if currentUser
+    p you're currently login as #{currentUser.firstName}
+
+    form(method="POST" action="")
+        label(for="title") Title
+        input#title(type="text" name="title")
+        label(for="content") Content
+        input#body(name="content")
+        button POST
+
+else
+    p Please Login
+    a(href="/login") Login
+
+if errors
+    ul
+        for error in errors
+            li!= error.msg
+

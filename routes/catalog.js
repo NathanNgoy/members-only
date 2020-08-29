@@ -13,6 +13,12 @@ router.get('/', blog_controller.index);
 //display message list
 router.get('/home', blog_controller.list_blog);
 
+//create messages GET
+router.get('/message/create', blog_controller.message_create_get);
+
+//create messages POST
+router.post('/message/create', blog_controller.messsage_create_post);
+
 /// USER ROUTERS ///
 router.get('/signup', user_controller.sign_up_get);
 

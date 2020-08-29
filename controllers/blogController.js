@@ -30,6 +30,39 @@ exports.list_blog = function(req, res) {
 }
 
 exports.message_create_get = function(req, res) {
-    res.render("create_message", { user: req.user });
+    res.render("create_message", { currentUser: req.user });
 }
 
+exports.messsage_create_post = [
+    expressValidator.body('title', 'Title must not be empty.').trim().isLength({ min: 1 }),
+    expressValidator.body('content', 'Content must not be empty.').trim().isLength({ min: 1 }),
+   
+    expressValidator.sanitizeBody('*').escape(),
+
+    (req, res, next) => {
+        const errors = expressValidator.validationResult(req);
+
+        if (!errors.isEmpty()) {
+            res.render('create_message', { currentUser: req.user, errors: errors.array()});
+            return;
+        } 
+        else {
+            console.log(req.body.title);
+            console.log(req.body.content);
+            console.log(req.user);
+            const message = new Message({
+                title: req.body.title,
+                content: req.body.content,
+                author: req.user.id,
+                date: Date.now()
+            });
+
+            console.log(message)
+
+            message.save(function(err) {
+                if (err) { return next(err) }
+                res.redirect('/home');
+            })
+        }
+    }
+];
