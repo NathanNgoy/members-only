@@ -6,3 +6,7 @@ body {
 a {
   color: #00B7FF;
 }
+
+.menu-bar {
+  background: linear-gradient(-90deg, #d38312, #a83279) !important;
+}
