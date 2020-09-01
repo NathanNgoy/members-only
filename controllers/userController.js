@@ -5,6 +5,7 @@ var async = require('async');
 const bcrypt = require("bcryptjs");
 const { insertMany } = require("../models/user");
 const passport = require("passport");
+let makeAdmin = false;
 
 exports.sign_up_get = function(req, res) {
     res.render("signup", { title: "Sign up"});
@@ -29,12 +30,17 @@ exports.sign_up_post = [
         bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
             if (err) {return next(err)}
             const errors = expressValidator.validationResult(req);
+
+            if (req.body.admin === "admin"){
+                makeAdmin = true;
+            }
+
             const user = new User({
                 firstName: req.body.first_name,
                 lastName: req.body.last_name,
                 email: req.body.email,
                 password: hashedPassword,
-                isAdmin: false
+                isAdmin: makeAdmin
             })
             if (!errors.isEmpty()) {
                 res.render('signup', {errors: errors.array()});

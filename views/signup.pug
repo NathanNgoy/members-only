@@ -27,6 +27,12 @@ h1.title= title
             input(type='text', placeholder='Confirm Password' name='confirmPassword' required='true')
             br
         br
+        div 
+            label(for='admin') Secret Code to grant Admin Permission:
+            br
+            input(type='text', placeholder='Code' name='admin' required='false')
+            br
+        br
         button(type='submit') Sign up
 
     if errors

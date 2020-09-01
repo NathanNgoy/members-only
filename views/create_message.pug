@@ -1,12 +1,18 @@
 if currentUser
     p you're currently login as #{currentUser.firstName}
 
-    form(method="POST" action="")
-        label(for="title") Title
-        input#title(type="text" name="title")
-        label(for="content") Content
-        input#body(name="content")
-        button POST
+     form(method='POST' action='')
+        div 
+            label(for='title') Title:
+            br
+            input(type='text', placeholder='Title' name='title' required='true')
+            br
+        div 
+            label(for='content') Content:
+            br
+            textarea(type='textarea', placeholder='Content' name='content' rows='3' required='true')
+        br
+        button(type='submit') Submit
 
 else
     p Please Login

@@ -66,3 +66,14 @@ exports.messsage_create_post = [
         }
     }
 ];
+
+exports.message_delete_post = function (req, res, next){
+    console.log(req.params.id);
+    Message.findById(req.params.id).exec(function(err, message) {
+        if (err) { return next(err); }
+        Message.findByIdAndRemove(req.params.id, function deleteMessage (err) {
+            if (err) { return next(err); }
+            res.redirect("/home");
+        } )
+    })
+}

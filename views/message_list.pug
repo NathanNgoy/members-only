@@ -35,6 +35,9 @@ block content
                 div(class="float-right")
                     p.text-muted= message.dateFormat
                 div(class="clearfix")
+            if (currentUser && currentUser.isAdmin)
+                form(method="POST" action=`/message/${message._id}/delete`)
+                    button(type='submit') Delete
         
 
 
